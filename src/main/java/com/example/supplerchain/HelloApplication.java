@@ -1,6 +1,8 @@
 package com.example.supplerchain;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -36,8 +38,19 @@ public class HelloApplication extends Application {
     private GridPane loginPage() {
         Label emaillable = new Label("Email");//lable email
         Label passwordlable = new Label("Password");// lable password
+        Label messageLabel = new Label("I am message");
         TextField emailtextfield = new TextField();// textbox to type mail
         PasswordField passwordField = new PasswordField();//textbox to tyo]pe passsword
+        Button loginbutton = new Button("login");
+        loginbutton.setOnAction(new EventHandler<ActionEvent>() {//this is to capture the action event..
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String Email = emailtextfield.getText();
+                String Password = passwordField.getText();
+                messageLabel.setText(Email + " && " + Password);
+
+            }
+        });
         GridPane gridPane = new GridPane();
         gridPane.setMinSize(bodyPane.getMinWidth(),bodyPane.getMinHeight());//size for d gridpane of login page is with ref to bodypane
         gridPane.setVgap(5);
@@ -49,6 +62,8 @@ public class HelloApplication extends Application {
         gridPane.add(emailtextfield,1,0);//locztion of email text field
         gridPane.add(passwordlable,0,1);// location  of password label
         gridPane.add(passwordField,1,1);//location of password textfield
+        gridPane.add(loginbutton,0,2);
+        gridPane.add(messageLabel,1,2);
 
 return gridPane;
     }

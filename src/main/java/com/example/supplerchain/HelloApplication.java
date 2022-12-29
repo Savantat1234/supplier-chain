@@ -2,7 +2,9 @@ package com.example.supplerchain;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -13,12 +15,35 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+    public static final int  width =700, height = 600,headerbar = 50;
+    Pane bodyPane = new Pane();
+
+    private GridPane headerBar(){
+        TextField searchTextfield = new TextField();
+        Button searchButton = new Button("search");
+        GridPane gridPane = new GridPane();
+       // gridPane.setVgap(5);//vertical gap between controls..
+       // gridPane.setHgap(5);//horizontal gap between controls..
+        gridPane.setMinSize(bodyPane.getMinWidth(),headerbar - 10);//size for d gridpane of login page is with ref to bodypane
+        gridPane.setVgap(5);
+        gridPane.setHgap(5);
+        gridPane.setStyle("-fx-background-color: #87CEEB");
+        gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT OF LOGIN PAGE IS SETTELED TO CENTER..
+        gridPane.add(searchTextfield,0,0);
+        gridPane.add(searchButton,1,0);
+        return gridPane;
+    }
     private GridPane loginPage() {
         Label emaillable = new Label("Email");//lable email
         Label passwordlable = new Label("Password");// lable password
         TextField emailtextfield = new TextField();// textbox to type mail
         PasswordField passwordField = new PasswordField();//textbox to tyo]pe passsword
         GridPane gridPane = new GridPane();
+        gridPane.setMinSize(bodyPane.getMinWidth(),bodyPane.getMinHeight());//size for d gridpane of login page is with ref to bodypane
+        gridPane.setVgap(5);
+        gridPane.setHgap(5);
+        gridPane.setStyle("-fx-background-color: #87CEEB");
+        gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT OF LOGIN PAGE IS SETTELED TO CENTER..
         //first is x co-ordinate..&.. 2nd is y co-ordinate
         gridPane.add(emaillable,0,0);//location of email label
         gridPane.add(emailtextfield,1,0);//locztion of email text field
@@ -31,7 +56,11 @@ return gridPane;
 
 
         Pane root = new Pane();
-       root.getChildren().addAll(loginPage()) ;// all the components that we r outting inside the bigger pane that r taken as children to the bigger root pane
+        root.setPrefSize(width, height + headerbar);
+        bodyPane.setMinSize(width,height);
+        bodyPane.setTranslateY(headerbar);
+        bodyPane.getChildren().addAll(loginPage());
+       root.getChildren().addAll(headerBar(),bodyPane) ;// all the components that we r putting inside the bigger pane that r taken as children to the bigger root pane
         return root;
     }
     @Override

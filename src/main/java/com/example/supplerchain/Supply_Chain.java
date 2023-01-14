@@ -17,11 +17,26 @@ import java.io.IOException;
 
 public class Supply_Chain extends Application {
     public static final int  width =700, height = 600,headerbar = 50;
-    Pane bodyPane = new Pane();
+    public static Pane bodyPane = new Pane();
+    Login login = new Login();
+    ProductDetails productDetails = new ProductDetails();
 
     private GridPane headerBar(){
         TextField searchTextfield = new TextField();
         Button searchButton = new Button("search");
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String productName = searchTextfield.getText();
+
+                // clear the body and put this new pane in body..
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(productDetails.getProductsByName(productName));
+            }
+        });
+
+
+
         GridPane gridPane = new GridPane();
        // gridPane.setVgap(5);//vertical gap between controls..
        // gridPane.setHgap(5);//horizontal gap between controls..
@@ -44,9 +59,15 @@ public class Supply_Chain extends Application {
         loginbutton.setOnAction(new EventHandler<ActionEvent>() {//this is to capture the action event..
             @Override
             public void handle(ActionEvent actionEvent) {
-                String Email = emailtextfield.getText();
-                String Password = passwordField.getText();
-                messageLabel.setText(Email + " && " + Password);
+                String email = emailtextfield.getText();
+                String password = passwordField.getText();
+              //  messageLabel.setText(Email + " && " + Password);
+               if (login.customerLogin(email,password)){
+                   messageLabel.setText("Login Successful");
+               }
+               else{
+                   messageLabel.setText("Login Failed");
+               }
 
             }
         });
@@ -73,8 +94,8 @@ return gridPane;
         root.setPrefSize(width, height + headerbar);
         bodyPane.setMinSize(width,height);
         bodyPane.setTranslateY(headerbar);
-        bodyPane.getChildren().addAll(loginPage());
-       root.getChildren().addAll(headerBar(),bodyPane) ;// all the components that we r putting inside the bigger pane that r taken as children to the bigger root pane
+        bodyPane.getChildren().addAll(productDetails.getAllProducts());
+       root.getChildren().addAll(headerBar(), bodyPane) ;// all the components that we r putting inside the bigger pane that r taken as children to the bigger root pane
         return root;
     }
     @Override

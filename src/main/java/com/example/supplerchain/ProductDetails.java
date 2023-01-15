@@ -72,6 +72,17 @@ public class ProductDetails {    //in productdetails class we r attaching that d
         return tablePane; // retured tablePane..
 
     }
+    public  Product getSelectedProduct(){
+        try {
+            Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+            return  selectedProduct;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
 
 }

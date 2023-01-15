@@ -20,6 +20,10 @@ public class Supply_Chain extends Application {
     public static Pane bodyPane = new Pane();
     Login login = new Login();
     ProductDetails productDetails = new ProductDetails();
+    Button globalLoginButton;
+    Label customerEmailLabel = null;
+    String customerEmail = null;
+
 
     private GridPane headerBar(){
         TextField searchTextfield = new TextField();
@@ -37,6 +41,19 @@ public class Supply_Chain extends Application {
 
 
 
+        customerEmailLabel = new Label();
+
+        globalLoginButton = new Button("Log in");
+        globalLoginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(loginPage());
+                globalLoginButton.setDisable(true);
+
+            }
+        });
+        customerEmailLabel = new Label("Welcome User");
         GridPane gridPane = new GridPane();
        // gridPane.setVgap(5);//vertical gap between controls..
        // gridPane.setHgap(5);//horizontal gap between controls..
@@ -47,6 +64,8 @@ public class Supply_Chain extends Application {
         gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT OF LOGIN PAGE IS SETTELED TO CENTER..
         gridPane.add(searchTextfield,0,0);
         gridPane.add(searchButton,1,0);
+        gridPane.add(globalLoginButton,2,0);
+        gridPane.add(customerEmailLabel,3,0);
         return gridPane;
     }
     private GridPane loginPage() {
@@ -64,6 +83,11 @@ public class Supply_Chain extends Application {
               //  messageLabel.setText(Email + " && " + Password);
                if (login.customerLogin(email,password)){
                    messageLabel.setText("Login Successful");
+                   customerEmail = email;
+                   globalLoginButton.setDisable(true);
+                   customerEmailLabel.setText("Welcome:" + customerEmail );
+                   bodyPane.getChildren().clear();
+                   bodyPane.getChildren().add(productDetails.getAllProducts());
                }
                else{
                    messageLabel.setText("Login Failed");
@@ -87,15 +111,48 @@ public class Supply_Chain extends Application {
 
 return gridPane;
     }
+    private GridPane footerbar(){
+        Button addToCartButton = new Button("Add To Cart");
+        Button buyNowButton = new Button("Buy Now");
+        Label messageLabel = new Label("");
+        buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Product  selectedProduct = productDetails.getSelectedProduct();
+                if(Order.placeOrder(customerEmail,selectedProduct)){
+                    messageLabel.setText("Ordered");
+                }
+                else {
+                    messageLabel.setText("Order Failed");
+                }
+
+            }
+        });
+
+        GridPane gridPane = new GridPane();
+        // gridPane.setVgap(5);//vertical gap between controls..
+        // gridPane.setHgap(5);//horizontal gap between controls..
+        gridPane.setMinSize(bodyPane.getMinWidth(),headerbar - 10);//size for d gridpane of login page is with ref to bodypane
+        gridPane.setVgap(5);
+        gridPane.setHgap(50);
+        gridPane.setStyle("-fx-background-color: #87CEEB");
+        gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT OF LOGIN PAGE IS SETTELED TO CENTER..
+        gridPane.setTranslateY(headerbar + height + 5);
+        gridPane.add(addToCartButton,0,0);
+        gridPane.add(buyNowButton,1,0);
+        gridPane.add(messageLabel,2,0);
+
+        return gridPane;
+    }
     private Pane createContent() {//this is thee main pane..or mother pane
 
 
         Pane root = new Pane();
-        root.setPrefSize(width, height + headerbar);
+        root.setPrefSize(width, height + 2*headerbar);
         bodyPane.setMinSize(width,height);
         bodyPane.setTranslateY(headerbar);
         bodyPane.getChildren().addAll(productDetails.getAllProducts());
-       root.getChildren().addAll(headerBar(), bodyPane) ;// all the components that we r putting inside the bigger pane that r taken as children to the bigger root pane
+       root.getChildren().addAll(headerBar(), bodyPane,footerbar()) ;// all the components that we r putting inside the bigger pane that r taken as children to the bigger root pane
         return root;
     }
     @Override

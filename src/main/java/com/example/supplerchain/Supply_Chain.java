@@ -71,10 +71,10 @@ public class Supply_Chain extends Application {
     private GridPane loginPage() {
         Label emaillable = new Label("Email");//lable email
         Label passwordlable = new Label("Password");// lable password
-        Label messageLabel = new Label("I am message");
+        Label messageLabel = new Label("Plzz Enter Ur Mail & Password");
         TextField emailtextfield = new TextField();// textbox to type mail
         PasswordField passwordField = new PasswordField();//textbox to tyo]pe passsword
-        Button loginbutton = new Button("login");
+        Button loginbutton = new Button("Sign In");
         loginbutton.setOnAction(new EventHandler<ActionEvent>() {//this is to capture the action event..
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -82,7 +82,7 @@ public class Supply_Chain extends Application {
                 String password = passwordField.getText();
               //  messageLabel.setText(Email + " && " + Password);
                if (login.customerLogin(email,password)){
-                   messageLabel.setText("Login Successful");
+                   messageLabel.setText("Yehh, Login Successful");
                    customerEmail = email;
                    globalLoginButton.setDisable(true);
                    customerEmailLabel.setText("Welcome:" + customerEmail );
@@ -90,7 +90,7 @@ public class Supply_Chain extends Application {
                    bodyPane.getChildren().add(productDetails.getAllProducts());
                }
                else{
-                   messageLabel.setText("Login Failed");
+                   messageLabel.setText("Account Not Found");
                }
 
             }
@@ -120,7 +120,7 @@ return gridPane;
             public void handle(ActionEvent actionEvent) {
                 Product  selectedProduct = productDetails.getSelectedProduct();
                 if(Order.placeOrder(customerEmail,selectedProduct)){
-                    messageLabel.setText("Ordered");
+                    messageLabel.setText("Ordere Placed");
                 }
                 else {
                     messageLabel.setText("Order Failed");

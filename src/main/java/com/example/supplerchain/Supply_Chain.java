@@ -132,11 +132,11 @@ return gridPane;
         GridPane gridPane = new GridPane();
         // gridPane.setVgap(5);//vertical gap between controls..
         // gridPane.setHgap(5);//horizontal gap between controls..
-        gridPane.setMinSize(bodyPane.getMinWidth(),headerbar - 10);//size for d gridpane of login page is with ref to bodypane
+        gridPane.setMinSize(bodyPane.getMinWidth(),headerbar - 10);
         gridPane.setVgap(5);
         gridPane.setHgap(50);
         gridPane.setStyle("-fx-background-color: #87CEEB");
-        gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT OF LOGIN PAGE IS SETTELED TO CENTER..
+        gridPane.setAlignment(Pos.CENTER);//ALLIGNMENT SETTELED TO CENTER..
         gridPane.setTranslateY(headerbar + height + 5);
         gridPane.add(addToCartButton,0,0);
         gridPane.add(buyNowButton,1,0);
